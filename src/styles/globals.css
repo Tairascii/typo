@@ -2,10 +2,18 @@
   --black-primary: #000505;
   --purple-primary: #3b3355;
   --black-secondary: #3e3e3e;
+  --white-primary: #fefefa;
 }
 
 body {
   margin: 0;
   background-color: var(--black-primary);
   color: var(--black-secondary);
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding: 2em;
+  box-sizing: border-box;
+  justify-content: space-between;
+  flex-direction: column;
 }

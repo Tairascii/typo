@@ -1,0 +1,37 @@
+.block {
+  position: relative;
+  width: 1250px;
+  height: 112px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.carret {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 2px;
+  border-radius: 2px;
+  background-color: var(--purple-primary);
+  animation: carretAnimation infinite ease 1s;
+}
+
+@keyframes carretAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
