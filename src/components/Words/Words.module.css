@@ -1,6 +1,6 @@
 .block {
   position: relative;
-  width: 1250px;
+  width: var(--main-width);
   height: 112px;
   overflow: hidden;
   display: flex;
