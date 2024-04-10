@@ -8,9 +8,9 @@ function Words(): JSX.Element {
   const [inputVal, setInputVal] = useState('')
   return (
     <div className={styles.block}>
-      <div className={styles.carret} />
+      <div className={styles.caret} />
       {words.map((word) => {
-        return <span className={styles.word}>{word}</span>
+        return <span className={styles.word} key={word}>{word}</span>
       })}
       <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value) }/>
     </div>

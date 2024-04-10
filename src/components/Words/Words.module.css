@@ -9,9 +9,10 @@
   gap: 8px;
   font-size: 24px;
   font-weight: 500;
+  line-height: 28px;
 }
 
-.carret {
+.caret {
   position: absolute;
   top: 0;
   left: 0;
