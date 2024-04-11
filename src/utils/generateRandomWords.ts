@@ -1,11 +1,20 @@
-import { words } from "@/constants/words"
+import { words } from '@/constants/words'
 
-export const generateRandomWords = (): string[] => {
-  const result = new Array(words.length)
-  words.forEach((item) => {
-    const randomIndex = Math.floor(Math.random() * words.length)
-    result[randomIndex] = item
+export const generateRandomWords = (): {
+  words: string[]
+  wordsAsString: string
+  wordsSplitted: string[][]
+} => {
+  const result: string[][] = new Array(words.length)
+  const fullWords: string[] = new Array(words.length)
+  words.forEach((item, index) => {
+    // const randomIndex = Math.floor(Math.random() * words.length)
+    result[index] = item.split('')
+    fullWords[index] = item.trim()
   })
-
-  return words
+  return {
+    words: fullWords,
+    wordsAsString: fullWords.join(' ').trim(),
+    wordsSplitted: result,
+  }
 }
