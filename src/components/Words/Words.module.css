@@ -17,6 +17,13 @@
   gap: 8px;
 }
 
+.spyWrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .caret {
   position: absolute;
   top: 0;
@@ -26,6 +33,10 @@
   border-radius: 2px;
   background-color: var(--purple-primary);
   animation: carretAnimation infinite ease 1s;
+}
+
+.activeCaret {
+  animation: none;
 }
 
 .input {
