@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .logo {
@@ -23,4 +23,5 @@
   font-size: 20px;
   font-weight: 500;
   pointer-events: none;
+  color: var(--accent-primary);
 }
