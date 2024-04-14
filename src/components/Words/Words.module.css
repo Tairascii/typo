@@ -2,19 +2,23 @@
   position: relative;
   width: var(--main-width);
   height: 112px;
+  overflow: hidden;
   font-size: 24px;
   font-weight: 500;
   line-height: 28px;
 }
 
 .wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  transition: top ease 0.5s;
 }
 
 .spyWrapper {
@@ -32,6 +36,7 @@
   width: 2px;
   border-radius: 2px;
   background-color: var(--purple-primary);
+  background-color: white;
   animation: carretAnimation infinite ease 1s;
 }
 

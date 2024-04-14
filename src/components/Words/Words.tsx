@@ -20,6 +20,7 @@ function Words(): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null)
   const spyDivRef = useRef<HTMLDivElement>(null)
   const spySpanRef = useRef<HTMLSpanElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const correctIndexs = useMemo(() => new Set(), [])
   const incorrectIndexs = useMemo(() => new Set(), [])
   const lastWordsInLines = useMemo(() => new Set(), [])
@@ -28,7 +29,15 @@ function Words(): JSX.Element {
     top: 0,
     left: 0,
   })
+  const [wrapperTop, setWrapperTop] = useState(0)
   const [isMissingFocus, setIsMissingFocus] = useState(false)
+
+  const moveToNextLine = (): void => {
+    if (wrapperRef.current) {
+      setWrapperTop((prev) => prev - 36)
+      setCaretPos({ left: 0, top: caretPos.top + 36 })
+    }
+  }
 
   //todo move to store maybe
   //refactor seems like i can do it without whole string just by word by word
@@ -36,6 +45,7 @@ function Words(): JSX.Element {
     const newInputVal = e.target.value
     const typedWords = newInputVal.split(' ')
     const lastTypedWord = typedWords[typedWords.length - 1]
+    const beforeLastTypeWord = typedWords[typedWords.length - 2]
     const wordLetterIndex = `${typedWords.length - 1}-${lastTypedWord.length - 1}`
     const lastInputValIndex = newInputVal.length - 1
     if (newInputVal.length < inputVal.length) {
@@ -50,17 +60,14 @@ function Words(): JSX.Element {
     } else {
       incorrectIndexs.add(wordLetterIndex)
     }
-    if (lastWordsInLines.has(lastTypedWord)) {
-      setCaretPos({ left: 0, top: caretPos.top + 36 })
+    if (lastWordsInLines.has(beforeLastTypeWord)) {
+      lastWordsInLines.delete(beforeLastTypeWord)
+      moveToNextLine()
     } else if (spySpanRef.current) {
-      const lastChar = newInputVal[lastInputValIndex]
-      if (lastChar === ' ') {
-        setCaretPos({ left: caretPos.left + 8, top: caretPos.top })
-      } else {
-        spySpanRef.current.innerHTML = lastChar
-        const letterWidth = spySpanRef.current.offsetWidth
-        setCaretPos({ left: caretPos.left + letterWidth, top: caretPos.top })
-      }
+      spySpanRef.current.innerHTML = typedWords.join('')
+      const letterWidth =
+        spySpanRef.current.offsetWidth + 8 * (typedWords.length - 1)
+      setCaretPos({ left: letterWidth, top: caretPos.top })
     }
     setInputVal(e.target.value)
   }
@@ -100,6 +107,8 @@ function Words(): JSX.Element {
       />
       <div
         className={clsx(styles.wrapper, { [styles.blurred]: isMissingFocus })}
+        style={{ top: wrapperTop }}
+        ref={wrapperRef}
       >
         <div
           className={clsx(styles.caret, { [styles.activeCaret]: !!inputVal })}
