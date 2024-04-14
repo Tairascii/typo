@@ -2,7 +2,6 @@ import { words } from '@/constants/words'
 
 export const generateRandomWords = (): {
   words: string[]
-  wordsAsString: string
   wordsSplitted: string[][]
 } => {
   const result: string[][] = new Array(words.length)
@@ -14,7 +13,6 @@ export const generateRandomWords = (): {
   })
   return {
     words: fullWords,
-    wordsAsString: fullWords.join(' ').trim(),
     wordsSplitted: result,
   }
 }

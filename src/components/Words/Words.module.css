@@ -37,6 +37,7 @@
   border-radius: 2px;
   background-color: var(--accent-primary);
   animation: carretAnimation infinite ease 1s;
+  transition: left ease 0.15s;
 }
 
 .activeCaret {

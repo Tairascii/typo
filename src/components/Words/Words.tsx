@@ -13,10 +13,7 @@ import clsx from 'clsx'
 import WarningIcon from '@/ui/Icons/Warning'
 
 function Words(): JSX.Element {
-  const { words, wordsAsString, wordsSplitted } = useMemo(
-    () => generateRandomWords(),
-    [],
-  )
+  const { words, wordsSplitted } = useMemo(() => generateRandomWords(), [])
   const inputRef = useRef<HTMLInputElement>(null)
   const spyDivRef = useRef<HTMLDivElement>(null)
   const spySpanRef = useRef<HTMLSpanElement>(null)
@@ -24,6 +21,7 @@ function Words(): JSX.Element {
   const correctIndexs = useMemo(() => new Set(), [])
   const incorrectIndexs = useMemo(() => new Set(), [])
   const lastWordsInLines = useMemo(() => new Set(), [])
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [inputVal, setInputVal] = useState('')
   const [caretPos, setCaretPos] = useState({
     top: 0,
@@ -39,36 +37,67 @@ function Words(): JSX.Element {
     }
   }
 
-  //todo move to store maybe
-  //refactor seems like i can do it without whole string just by word by word
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const newInputVal = e.target.value
-    const typedWords = newInputVal.split(' ')
-    const lastTypedWord = typedWords[typedWords.length - 1]
-    const beforeLastTypeWord = typedWords[typedWords.length - 2]
-    const wordLetterIndex = `${typedWords.length - 1}-${lastTypedWord.length - 1}`
-    const lastInputValIndex = newInputVal.length - 1
-    if (newInputVal.length < inputVal.length) {
-      const prevState = `${typedWords.length - 1}-${lastTypedWord.length}`
+  const onSpacePressed = (): void => {
+    const word = inputVal.trim()
+    if (lastWordsInLines.has(word)) {
+      lastWordsInLines.delete(word)
+      moveToNextLine()
+    } else {
+      setCaretPos({ left: caretPos.left + 8, top: caretPos.top })
+    }
+    setInputVal('')
+    setCurrentWordIndex(currentWordIndex + 1)
+  }
+
+  const changeCaretPosition = (lastIndex: number, isDelete: boolean): void => {
+    if (spySpanRef.current) {
+      const correctWord = words[currentWordIndex]
+      const previousCorrectWordState = correctWord.slice(
+        0,
+        lastIndex + (isDelete ? 2 : 0),
+      )
+      const currentCorrectWordState = correctWord.slice(0, lastIndex + 1)
+      spySpanRef.current.innerHTML = previousCorrectWordState
+      const previousCorrectWordWidth =
+        spySpanRef.current.getBoundingClientRect().width
+      spySpanRef.current.innerHTML = currentCorrectWordState
+      const currentCorrectWordWidth =
+        spySpanRef.current.getBoundingClientRect().width
+      const newLeftCaretPosition =
+        caretPos.left + currentCorrectWordWidth - previousCorrectWordWidth
+      setCaretPos({ left: newLeftCaretPosition, top: caretPos.top })
+    }
+  }
+
+  const markCorrectIncorrect = (newInputVal: string): void => {
+    const isDelete = newInputVal.length < inputVal.length
+    const lastIndex = newInputVal.length - 1
+    const wordLetterIndex = `${currentWordIndex}-${newInputVal.length - 1}`
+    if (isDelete) {
+      const prevState = `${currentWordIndex}-${lastIndex + 1}`
       correctIndexs.delete(prevState)
       incorrectIndexs.delete(prevState)
-    } else if (
-      lastInputValIndex >= 0 &&
-      wordsAsString[lastInputValIndex] === newInputVal[lastInputValIndex]
-    ) {
+    } else if (newInputVal[lastIndex] === words[currentWordIndex][lastIndex]) {
       correctIndexs.add(wordLetterIndex)
     } else {
       incorrectIndexs.add(wordLetterIndex)
     }
-    if (lastWordsInLines.has(beforeLastTypeWord)) {
-      lastWordsInLines.delete(beforeLastTypeWord)
-      moveToNextLine()
-    } else if (spySpanRef.current) {
-      spySpanRef.current.innerHTML = typedWords.join('')
-      const letterWidth =
-        spySpanRef.current.offsetWidth + 8 * (typedWords.length - 1)
-      setCaretPos({ left: letterWidth, top: caretPos.top })
+  }
+
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const newInputVal = e.target.value
+    const lastIndex = newInputVal.length - 1
+    if (newInputVal[lastIndex] == ' ') {
+      onSpacePressed()
+      return
     }
+
+    const isDelete = newInputVal.length < inputVal.length
+   
+    markCorrectIncorrect(newInputVal)
+
+    changeCaretPosition(lastIndex, isDelete)
+
     setInputVal(e.target.value)
   }
 
@@ -111,7 +140,9 @@ function Words(): JSX.Element {
         ref={wrapperRef}
       >
         <div
-          className={clsx(styles.caret, { [styles.activeCaret]: !!inputVal })}
+          className={clsx(styles.caret, {
+            [styles.activeCaret]: !!inputVal && !currentWordIndex,
+          })}
           style={{ top: `${caretPos.top}px`, left: `${caretPos.left}px` }}
         />
         {wordsSplitted.map((word, wordIndex) => {
@@ -127,7 +158,7 @@ function Words(): JSX.Element {
                       [styles.incorrect]: incorrectIndexs.has(wordLetterIndex),
                     })}
                   >
-                    {letter === ' ' ? 'a&nbsp' : letter}
+                    {letter}
                   </span>
                 )
               })}
