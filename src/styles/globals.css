@@ -1,16 +1,16 @@
 :root {
-  --black-primary: #000505;
-  --purple-primary: #3b3355;
-  --black-secondary: #3e3e3e;
-  --white-primary: #fefefa;
+  --bg-primary: #242038;
+  --accent-primary: #9067c6;
+  --bg-secondary: #8d86c9;
+  --white-primary: #f7ece1;
   --main-width: 1250px;
   --ui-red: #6c0f16;
 }
 
 body {
   margin: 0;
-  background-color: var(--black-primary);
-  color: var(--black-secondary);
+  background-color: var(--bg-primary);
+  color: var(--bg-secondary);
   display: flex;
   align-items: center;
   height: 100vh;

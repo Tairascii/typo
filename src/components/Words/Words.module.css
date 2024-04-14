@@ -35,8 +35,7 @@
   height: 24px;
   width: 2px;
   border-radius: 2px;
-  background-color: var(--purple-primary);
-  background-color: white;
+  background-color: var(--accent-primary);
   animation: carretAnimation infinite ease 1s;
 }
 

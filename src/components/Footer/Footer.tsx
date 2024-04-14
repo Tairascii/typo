@@ -8,16 +8,16 @@ function Footer(): JSX.Element {
     <footer className={styles.block}>
       <div className={styles.links}>
         <div className={styles.link}>
-          <MailIcon width={16} height={16} borderColor='#fff' />
+          <MailIcon width={16} height={16} borderColor='#9067c6' />
           <span className={styles.linkTitle}>Contacts</span>
         </div>
-        <div className={styles.link}>
-          <CodeIcon width={16} height={16} borderColor='#fff' />
+        <a className={styles.link} href='https://github.com/Tairascii/typo'>
+          <CodeIcon width={16} height={16} borderColor='#9067c6' />
           <span className={styles.linkTitle}>Code</span>
-        </div>
+        </a>
       </div>
       <div className={styles.creator}>
-        <CoffeeIcon width={16} height={16} borderColor='#fff' />
+        <CoffeeIcon width={16} height={16} borderColor='#9067c6' />
         <span className={styles.name}>Tair Sairanbekov</span>
       </div>
     </footer>

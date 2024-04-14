@@ -12,6 +12,8 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  text-decoration: none;
+  color: var(--bg-secondary);
 }
 
 .links {
