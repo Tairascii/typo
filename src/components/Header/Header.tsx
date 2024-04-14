@@ -10,7 +10,6 @@ function Header(): JSX.Element {
       <div className={styles.leftSide}>
         <Image src={'/images/logo.svg'} alt={'logo'} width={100} height={60} />
         <SettingsIcon width={20} height={20} borderColor='#fff' />
-        <CodeIcon width={20} height={20} borderColor='#fff' />
       </div>
       <div className={styles.rightSide}>
         <UserIcon width={20} height={20} borderColor='#fff' />

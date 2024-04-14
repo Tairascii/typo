@@ -1,0 +1,22 @@
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--main-width);
+  font-size: 14px;
+}
+
+.creator,
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
