@@ -1,0 +1,61 @@
+.block {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: top ease 0.5s;
+}
+
+.blurred {
+  filter: blur(2px);
+}
+
+.caret {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 2px;
+  border-radius: 2px;
+  background-color: var(--accent-primary);
+  animation: carretAnimation infinite ease 1s;
+  transition: left ease 0.15s;
+}
+
+.activeCaret {
+  animation: none;
+}
+
+.skipped {
+  text-decoration: underline;
+  text-decoration-color: var(--ui-red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.correct {
+  color: var(--white-primary);
+}
+
+.incorrect {
+  color: var(--ui-red);
+}
+
+@keyframes carretAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

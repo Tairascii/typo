@@ -1,0 +1,24 @@
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+
+.resultBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resultBlockTitle {
+  font-size: 24px;
+}
+
+.resultBlockResult {
+  font-size: 64px;
+  line-height: 70px;
+  color: var(--accent-primary);
+}

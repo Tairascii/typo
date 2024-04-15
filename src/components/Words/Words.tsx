@@ -1,15 +1,17 @@
 'use client'
-import clsx from 'clsx'
 import WarningIcon from '@/ui/Icons/Warning'
 import { useWordsTest } from './useWordsTest'
-import { formatTime } from '@/utils/formatTime'
 import RedoIcon from '@/ui/Icons/RedoIcon'
 import { BG_SECONDARY } from '@/constants/colors'
+import { WordsContainer } from './ui/WordsContainer'
 import styles from './Words.module.css'
+import { Timer } from './ui/Timer'
+import { Result } from './ui/Result'
 
 interface WordsProps {
   seconds: number
 }
+
 function Words({ seconds }: WordsProps): JSX.Element {
   const {
     wordsSplitted,
@@ -30,22 +32,18 @@ function Words({ seconds }: WordsProps): JSX.Element {
     timeLeft,
     started,
     onRestart,
+    shouldShowResult,
   } = useWordsTest({ seconds })
 
   return (
     <div className={styles.block}>
-      <div
-        className={clsx(styles.timer, {
-          [styles.timerRed]: timeLeft.minute === 0 && timeLeft.seconds <= 3,
-        })}
-        style={{ opacity: started ? 1 : 0 }}
-      >
-        <span>{formatTime(timeLeft.minute, timeLeft.seconds)}</span>
-      </div>
+      <Timer timeLeft={timeLeft} started={started} />
       <div
         className={styles.words}
         onClick={() => {
-          inputRef.current?.focus()
+          if(!shouldShowResult) {
+            inputRef.current?.focus()
+          }
         }}
       >
         <div
@@ -57,43 +55,28 @@ function Words({ seconds }: WordsProps): JSX.Element {
           ref={spySpanRef}
           style={{ display: 'inline-block', position: 'absolute', opacity: 0 }}
         />
-        <div
-          className={clsx(styles.wrapper, { [styles.blurred]: isMissingFocus })}
-          style={{ top: wrapperTop }}
-        >
-          <div
-            className={clsx(styles.caret, {
-              [styles.activeCaret]: !!inputVal && !currentWordIndex,
-            })}
-            style={{ top: `${caretPos.top}px`, left: `${caretPos.left}px` }}
+        {shouldShowResult && (
+          <Result
+            correctIndexs={correctIndexs}
+            incorrectIndexs={incorrectIndexs}
+            currentWordIndex={currentWordIndex}
+            seconds={seconds}
           />
-          {wordsSplitted.map((word, wordIndex) => {
-            return (
-              <span
-                className={clsx(styles.word, {
-                  [styles.skipped]: skippedWords.has(words[wordIndex]),
-                })}
-                key={words[wordIndex]}
-              >
-                {word.map((letter, letterIndex) => {
-                  const wordLetterIndex = `${wordIndex}-${letterIndex}`
-                  return (
-                    <span
-                      key={`${letter}-${letterIndex}-${wordIndex}`}
-                      className={clsx({
-                        [styles.correct]: correctIndexs.has(wordLetterIndex),
-                        [styles.incorrect]:
-                          incorrectIndexs.has(wordLetterIndex),
-                      })}
-                    >
-                      {letter}
-                    </span>
-                  )
-                })}
-              </span>
-            )
-          })}
-        </div>
+        )}
+        {!shouldShowResult && (
+          <WordsContainer
+            isMissingFocus={isMissingFocus}
+            wrapperTop={wrapperTop}
+            inputVal={inputVal}
+            wordsSplitted={wordsSplitted}
+            skippedWords={skippedWords}
+            currentWordIndex={currentWordIndex}
+            words={words}
+            correctIndexs={correctIndexs}
+            incorrectIndexs={incorrectIndexs}
+            caretPos={caretPos}
+          />
+        )}
         <input
           type='text'
           value={inputVal}

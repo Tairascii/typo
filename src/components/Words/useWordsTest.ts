@@ -18,10 +18,10 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     minute: Math.floor(seconds / 60),
     seconds: seconds % 60,
   }
-  const correctIndexs = useMemo(() => new Set(), [])
-  const incorrectIndexs = useMemo(() => new Set(), [])
-  const lastWordsInLines = useMemo(() => new Set(), [])
-  const skippedWords = useMemo(() => new Set(), [])
+  const correctIndexs = useMemo(() => new Set<string>(), [])
+  const incorrectIndexs = useMemo(() => new Set<string>(), [])
+  const lastWordsInLines = useMemo(() => new Set<string>(), [])
+  const skippedWords = useMemo(() => new Set<string>(), [])
   const [started, setStarted] = useState(false)
   const [timeLeft, setTimeLeft] = useState(initTimeLeft)
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
@@ -32,6 +32,7 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
   })
   const [wrapperTop, setWrapperTop] = useState(0)
   const [isMissingFocus, setIsMissingFocus] = useState(false)
+  const [shouldShowResult, setShouldShowResult] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const spyDivRef = useRef<HTMLDivElement>(null)
   const spySpanRef = useRef<HTMLSpanElement>(null)
@@ -140,11 +141,14 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     setStarted(false)
     setTimeLeft(initTimeLeft)
     setCurrentWordIndex(0)
+    setShouldShowResult(false)
     inputRef.current?.focus()
   }
 
   const onFinish = (): void => {
     setStarted(false)
+    inputRef.current?.blur()
+    setShouldShowResult(true)
   }
 
   useLayoutEffect(() => {
@@ -211,9 +215,10 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     inputRef,
     spyDivRef,
     spySpanRef,
-    // * UI POSITIONS *
+    // * UI *
     wrapperTop,
     caretPos,
     started,
+    shouldShowResult,
   }
 }

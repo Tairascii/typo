@@ -1,0 +1,11 @@
+.block {
+  margin-bottom: 8px;
+  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
+  color: var(--accent-primary);
+  align-self: flex-start;
+}
+
+.red {
+  color: var(--ui-red);
+}
