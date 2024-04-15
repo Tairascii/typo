@@ -2,8 +2,10 @@
 import clsx from 'clsx'
 import WarningIcon from '@/ui/Icons/Warning'
 import { useWordsTest } from './useWordsTest'
-import styles from './Words.module.css'
 import { formatTime } from '@/utils/formatTime'
+import RedoIcon from '@/ui/Icons/RedoIcon'
+import { BG_SECONDARY } from '@/constants/colors'
+import styles from './Words.module.css'
 
 interface WordsProps {
   seconds: number
@@ -15,7 +17,6 @@ function Words({ seconds }: WordsProps): JSX.Element {
     inputRef,
     spyDivRef,
     spySpanRef,
-    wrapperRef,
     inputVal,
     wrapperTop,
     isMissingFocus,
@@ -28,6 +29,7 @@ function Words({ seconds }: WordsProps): JSX.Element {
     incorrectIndexs,
     timeLeft,
     started,
+    onRestart,
   } = useWordsTest({ seconds })
 
   return (
@@ -58,7 +60,6 @@ function Words({ seconds }: WordsProps): JSX.Element {
         <div
           className={clsx(styles.wrapper, { [styles.blurred]: isMissingFocus })}
           style={{ top: wrapperTop }}
-          ref={wrapperRef}
         >
           <div
             className={clsx(styles.caret, {
@@ -113,6 +114,9 @@ function Words({ seconds }: WordsProps): JSX.Element {
           </div>
         )}
       </div>
+      <button className={styles.restart} onClick={onRestart}>
+        <RedoIcon borderColor={BG_SECONDARY} width={24} height={24} />
+      </button>
     </div>
   )
 }

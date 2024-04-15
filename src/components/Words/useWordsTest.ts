@@ -35,13 +35,10 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const spyDivRef = useRef<HTMLDivElement>(null)
   const spySpanRef = useRef<HTMLSpanElement>(null)
-  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const moveToNextLine = (): void => {
-    if (wrapperRef.current) {
-      setWrapperTop((prev) => prev - 36)
-      setCaretPos({ left: 0, top: caretPos.top + 36 })
-    }
+    setWrapperTop((prev) => prev - 36)
+    setCaretPos({ left: 0, top: caretPos.top + 36 })
   }
 
   const onSpacePressed = (lastIndex: number): void => {
@@ -133,6 +130,19 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     setInputVal(e.target.value)
   }
 
+  const onRestart = (): void => {
+    correctIndexs.clear()
+    incorrectIndexs.clear()
+    skippedWords.clear()
+    setInputVal('')
+    setWrapperTop(0)
+    setCaretPos({ left: 0, top: 0 })
+    setStarted(false)
+    setTimeLeft(initTimeLeft)
+    setCurrentWordIndex(0)
+    inputRef.current?.focus()
+  }
+
   const onFinish = (): void => {
     setStarted(false)
   }
@@ -191,6 +201,7 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     correctIndexs,
     incorrectIndexs,
     timeLeft,
+    onRestart,
     // * INPUT *
     inputVal,
     onInputChange,
@@ -200,7 +211,6 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     inputRef,
     spyDivRef,
     spySpanRef,
-    wrapperRef,
     // * UI POSITIONS *
     wrapperTop,
     caretPos,

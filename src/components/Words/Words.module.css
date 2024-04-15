@@ -1,7 +1,31 @@
 .block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   font-size: 24px;
   font-weight: 500;
   line-height: 28px;
+}
+
+.restart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+.restart:focus {
+  outline: 0;
+  border-color: var(--bg-secondary);
 }
 
 .timer {
@@ -9,6 +33,7 @@
   transition: opacity 0.2s ease;
   transition: color 0.2s ease;
   color: var(--accent-primary);
+  align-self: flex-start;
 }
 
 .timerRed {
