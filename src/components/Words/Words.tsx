@@ -1,11 +1,5 @@
 'use client'
-import {
-  ChangeEvent,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { ChangeEvent, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import styles from './Words.module.css'
 import { generateRandomWords } from '@/utils/generateRandomWords'
 import clsx from 'clsx'
@@ -20,6 +14,7 @@ function Words(): JSX.Element {
   const correctIndexs = useMemo(() => new Set(), [])
   const incorrectIndexs = useMemo(() => new Set(), [])
   const lastWordsInLines = useMemo(() => new Set(), [])
+  const skippedWords = useMemo(() => new Set(), [])
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [inputVal, setInputVal] = useState('')
   const [caretPos, setCaretPos] = useState({
@@ -36,16 +31,37 @@ function Words(): JSX.Element {
     }
   }
 
-  const onSpacePressed = (): void => {
-    const word = inputVal.trim()
+  const onSpacePressed = (lastIndex: number): void => {
+    const word = words[currentWordIndex]
     if (lastWordsInLines.has(word)) {
       lastWordsInLines.delete(word)
       moveToNextLine()
     } else {
-      setCaretPos({ left: caretPos.left + 8, top: caretPos.top })
+      changeCaretPositionOnSpace(lastIndex)
     }
+
+    if (word !== word.slice(0, lastIndex)) {
+      skippedWords.add(word)
+    }
+
     setInputVal('')
     setCurrentWordIndex(currentWordIndex + 1)
+  }
+
+  const changeCaretPositionOnSpace = (lastIndex: number): void => {
+    if (spySpanRef.current) {
+      const word = words[currentWordIndex]
+      const previousCorrectWordState = word.slice(0, lastIndex)
+      spySpanRef.current.innerHTML = previousCorrectWordState
+      const previousCorrectWordWidth =
+        spySpanRef.current.getBoundingClientRect().width
+      spySpanRef.current.innerHTML = word
+      const currentCorrectWordWidth =
+        spySpanRef.current.getBoundingClientRect().width
+      const newLeftCaretPosition =
+        caretPos.left + currentCorrectWordWidth - previousCorrectWordWidth + 8
+      setCaretPos({ left: newLeftCaretPosition, top: caretPos.top })
+    }
   }
 
   const changeCaretPosition = (lastIndex: number, isDelete: boolean): void => {
@@ -87,12 +103,12 @@ function Words(): JSX.Element {
     const newInputVal = e.target.value
     const lastIndex = newInputVal.length - 1
     if (newInputVal[lastIndex] == ' ') {
-      onSpacePressed()
+      onSpacePressed(lastIndex)
       return
     }
 
     const isDelete = newInputVal.length < inputVal.length
-   
+
     markCorrectIncorrect(newInputVal)
 
     changeCaretPosition(lastIndex, isDelete)
@@ -146,7 +162,12 @@ function Words(): JSX.Element {
         />
         {wordsSplitted.map((word, wordIndex) => {
           return (
-            <span className={styles.word} key={words[wordIndex]}>
+            <span
+              className={clsx(styles.word, {
+                [styles.skipped]: skippedWords.has(words[wordIndex]),
+              })}
+              key={words[wordIndex]}
+            >
               {word.map((letter, letterIndex) => {
                 const wordLetterIndex = `${wordIndex}-${letterIndex}`
                 return (

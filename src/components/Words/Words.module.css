@@ -59,6 +59,13 @@
   color: var(--ui-red);
 }
 
+.skipped {
+  text-decoration: underline;
+  text-decoration-color: var(--ui-red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 .startFocusing {
   display: flex;
   align-items: center;
