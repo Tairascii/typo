@@ -7,7 +7,7 @@ import '@/styles/globals.css'
 const monserat = Montserrat({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Typo - master your typing skills',
+  title: 'Typo - Master your typing skills',
   description: "Hi, let's connect https://www.linkedin.com/in/tair-sairanbekov/",
 }
 

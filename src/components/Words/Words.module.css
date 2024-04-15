@@ -1,11 +1,25 @@
 .block {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.timer {
+  margin-bottom: 8px;
+  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
+  color: var(--accent-primary);
+}
+
+.timerRed {
+  color: var(--ui-red);
+}
+
+.words {
   position: relative;
   width: var(--main-width);
   height: 112px;
   overflow: hidden;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 28px;
 }
 
 .wrapper {
@@ -42,13 +56,6 @@
 
 .activeCaret {
   animation: none;
-}
-
-.input {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .correct {

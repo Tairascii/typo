@@ -8,7 +8,7 @@ const Words = dynamic(() => import('@/components/Words/Words'), {
 export default function Home() {
   return (
     <main className={styles.main}>
-      <Words />
+      <Words seconds={60} />
     </main>
   )
 }
