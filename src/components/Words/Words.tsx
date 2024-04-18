@@ -90,7 +90,7 @@ function Words({ seconds, setShouldHideSettings }: WordsProps): JSX.Element {
           autoFocus
           style={{ position: 'absolute', opacity: 0, top: 0, left: 0 }}
           ref={inputRef}
-          // onBlur={() => setIsMissingFocus(true)}
+          onBlur={() => setIsMissingFocus(true)}
           onFocus={() => setIsMissingFocus(false)}
         />
         {isMissingFocus && (
