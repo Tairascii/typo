@@ -93,7 +93,7 @@ function Words({ seconds, setShouldHideSettings }: WordsProps): JSX.Element {
           onBlur={() => setIsMissingFocus(true)}
           onFocus={() => setIsMissingFocus(false)}
         />
-        {isMissingFocus && (
+        {isMissingFocus && !shouldShowResult && (
           <div
             className={styles.startFocusing}
             onClick={() => inputRef.current?.focus()}
