@@ -7,12 +7,14 @@ import { WordsContainer } from './ui/WordsContainer'
 import styles from './Words.module.css'
 import { Timer } from './ui/Timer'
 import { Result } from './ui/Result'
+import { useEffect } from 'react'
 
 interface WordsProps {
   seconds: number
+  setShouldHideSettings: (val: boolean) => void
 }
 
-function Words({ seconds }: WordsProps): JSX.Element {
+function Words({ seconds, setShouldHideSettings }: WordsProps): JSX.Element {
   const {
     wordsSplitted,
     words,
@@ -35,13 +37,17 @@ function Words({ seconds }: WordsProps): JSX.Element {
     shouldShowResult,
   } = useWordsTest({ seconds })
 
+  useEffect(() => {
+    setShouldHideSettings(started)
+  }, [started])
+
   return (
     <div className={styles.block}>
       <Timer timeLeft={timeLeft} started={started} />
       <div
         className={styles.words}
         onClick={() => {
-          if(!shouldShowResult) {
+          if (!shouldShowResult) {
             inputRef.current?.focus()
           }
         }}

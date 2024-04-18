@@ -1,14 +1,14 @@
 import styles from '@/styles/page.module.css'
 import dynamic from 'next/dynamic'
 
-const Words = dynamic(() => import('@/components/Words/Words'), {
+const Main = dynamic(() => import('@/components/Main/Main'), {
   ssr: false,
 })
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <Words seconds={15} />
+      <Main />
     </main>
   )
 }

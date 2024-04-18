@@ -1,0 +1,43 @@
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.isActive {
+  color: var(--accent-primary);
+}
+
+.limitType,
+.limitCount,
+.addSymbol {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--bg-secondary);
+}
+
+.limitTypeWrapper,
+.limitCountWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.limitCountText,
+.limitTypeText,
+.addSymbolText {
+  font-size: 16px;
+}
+
+.divider {
+  height: 16px;
+  background-color: var(--bg-secondary);
+  width: 1px;
+}

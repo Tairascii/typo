@@ -139,7 +139,10 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
     setWrapperTop(0)
     setCaretPos({ left: 0, top: 0 })
     setStarted(false)
-    setTimeLeft(initTimeLeft)
+    setTimeLeft({
+      minute: Math.floor(seconds / 60),
+      seconds: seconds % 60,
+    })
     setCurrentWordIndex(0)
     setShouldShowResult(false)
     inputRef.current?.focus()
@@ -195,6 +198,10 @@ export const useWordsTest = ({ seconds }: UseWordsTestParams) => {
 
     return (): void => clearInterval(timer)
   }, [started])
+
+  useEffect(() => {
+    onRestart()
+  }, [seconds])
 
   return {
     // * CORE *
